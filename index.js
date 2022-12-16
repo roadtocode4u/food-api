@@ -63,12 +63,12 @@ app.post('/add-food-item', (req, res) => {
   })
 })
 
-app.get('/food-item-by-id', (req, res)=>{
+app.get('/food-item-by-id', (req, res) => {
   // read id from query params
   const id = req.query.id
 
-  db.forEach((item)=>{
-    if(item.id == id){
+  db.forEach((item) => {
+    if (item.id == id) {
       return res.json({
         success: true,
         data: item,
@@ -84,11 +84,11 @@ app.get('/food-item-by-id', (req, res)=>{
   })
 })
 
-app.get('/delete-food-item-by-id', (req, res)=>{
+app.get('/delete-food-item-by-id', (req, res) => {
   const id = req.query.id
 
-  db.forEach((item, index)=>{
-    if(item.id == id){
+  db.forEach((item, index) => {
+    if (item.id == id) {
       db.splice(index, 1)
       return res.json({
         success: true,
@@ -105,8 +105,23 @@ app.get('/delete-food-item-by-id', (req, res)=>{
   })
 })
 
+app.get('/food-items-by-category', (req, res) => {
+  const category = req.query.category
 
+  const temp = []
 
+  db.forEach((item) => {
+    if (item.category === category) {
+      temp.push(item)
+    }
+  })
+
+  res.json({
+    success: true,
+    data: temp,
+    message: `food items for ${category} fetched successfully`
+  })
+})
 
 
 app.listen(5000, () => {
